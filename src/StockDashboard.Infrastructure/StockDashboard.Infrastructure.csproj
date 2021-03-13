@@ -4,4 +4,19 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="C:\Users\danny\.nuget\packages\microsoft.azure.cosmos\3.17.0\contentFiles\any\netstandard2.0\ThirdPartyNotice.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.17.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Throttling" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StockDashboard.Application\StockDashboard.Application.csproj" />
+  </ItemGroup>
+
 </Project>
