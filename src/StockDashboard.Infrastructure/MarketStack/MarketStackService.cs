@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Options;
 using StockDashboard.Application.Interfaces;
 using StockDashboard.Application.Models;
 using StockDashboard.Infrastructure.MarketStack.Extensions;
@@ -18,9 +19,9 @@ namespace StockDashboard.Infrastructure.MarketStack {
     private readonly Throttled _throttled;
     private readonly string _apiUrl;
 
-    public MarketStackService(IMapper mapper, MarketStackOptions options, HttpClient httpClient) {
+    public MarketStackService(IMapper mapper, IOptions<MarketStackOptions> options, HttpClient httpClient) {
       _mapper = mapper;
-      _options = options;
+      _options = options.Value;
       if (_options.MaxRequestsPerSecond >= 10) {
         _throttled = new Throttled(_options.MaxRequestsPerSecond / 10, 100);
       }
@@ -30,7 +31,7 @@ namespace StockDashboard.Infrastructure.MarketStack {
 
       _httpClient = httpClient;
       _httpClient.Timeout = TimeSpan.FromMinutes(10);
-      _apiUrl = options.Https ? "https://api.marketstack.com/v1" : "http://api.marketstack.com/v1";
+      _apiUrl = _options.Https ? "https://api.marketstack.com/v1" : "http://api.marketstack.com/v1";
     }
 
     public async Task<IEnumerable<ExchangeModel>> GetExchanges() {

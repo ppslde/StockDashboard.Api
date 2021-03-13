@@ -10,8 +10,8 @@ using System.Web;
 using Throttling;
 
 namespace StockDashboard.Infrastructure.MarketStack.Extensions {
-  public static class HttpExtensions {
-    public static async Task<IEnumerable<T>> RequestMarketStackAsync<T>(this HttpClient httpClient, string url, MarketStackOptions options, Throttled throttled) {
+  internal static class HttpExtensions {
+    internal static async Task<IEnumerable<T>> RequestMarketStackAsync<T>(this HttpClient httpClient, string url, MarketStackOptions options, Throttled throttled) {
 
       var builder = new UriBuilder(url);
       var query = HttpUtility.ParseQueryString(builder.Query);

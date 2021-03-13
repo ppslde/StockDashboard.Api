@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Options;
 using StockDashboard.Application.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,10 @@ using System.Threading.Tasks;
 namespace StockDashboard.Infrastructure.CosmosDb {
   public class ExchangeRepository: IExchangeRepository {
 
-    public ExchangeRepository() {
+    private readonly CosmosDbOptions _options;
+
+    public ExchangeRepository(IOptions<CosmosDbOptions> options) {
+      _options = options.Value;
     }
 
   }
