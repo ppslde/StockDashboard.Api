@@ -1,8 +1,7 @@
 ﻿using System;
 
-namespace StockDashboard.Application.Models {
-  public class DayDataModel: BaseModel {
-    public override string Id => $"{ExchangeMic}.{TickerSymbol}.{Date:yyyyMMdd}";
+namespace StockDashboard.Application.Entities {
+  public class DayData : Entity {
     public string TickerSymbol { get; set; }
     public string ExchangeMic { get; set; }
     public DateTime Date { get; set; }

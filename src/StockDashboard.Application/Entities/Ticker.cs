@@ -1,6 +1,5 @@
-﻿namespace StockDashboard.Application.Models {
-  public class TickerModel:BaseModel {
-    public override string Id => $"{ExchangeMic}.{Symbol}";
+﻿namespace StockDashboard.Application.Entities {
+  public class Ticker : Entity {
     public string ExchangeMic { get; set; }
     public string Symbol { get; set; }
     public string Name { get; set; }

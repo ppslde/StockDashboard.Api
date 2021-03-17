@@ -1,6 +1,5 @@
-﻿namespace StockDashboard.Application.Models {
-  public class ExchangeModel : BaseModel{
-    public override string Id => $"{Mic}.{Acronym}";
+﻿namespace StockDashboard.Application.Entities {
+  public class Exchange : Entity {
     public string Name { get; set; }
     public string Acronym { get; set; }
     public string Mic { get; set; }

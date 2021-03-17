@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Options;
+using StockDashboard.Application.Entities;
 using StockDashboard.Application.Interfaces;
-using StockDashboard.Application.Models;
 using StockDashboard.Infrastructure.MarketStack.Extensions;
 using StockDashboardLogic.Services.MarketStack.Objects;
 using System;
@@ -22,6 +22,7 @@ namespace StockDashboard.Infrastructure.MarketStack {
     public MarketStackService(IMapper mapper, IOptions<MarketStackOptions> options, HttpClient httpClient) {
       _mapper = mapper;
       _options = options.Value;
+
       if (_options.MaxRequestsPerSecond >= 10) {
         _throttled = new Throttled(_options.MaxRequestsPerSecond / 10, 100);
       }
@@ -34,39 +35,39 @@ namespace StockDashboard.Infrastructure.MarketStack {
       _apiUrl = _options.Https ? "https://api.marketstack.com/v1" : "http://api.marketstack.com/v1";
     }
 
-    public async Task<IEnumerable<ExchangeModel>> GetExchanges() {
+    public async Task<IEnumerable<Exchange>> GetExchanges() {
       var eo = await _httpClient.RequestMarketStackAsync<ExchangeObject>($"{_apiUrl}/exchanges", _options, _throttled);
-      return _mapper.ProjectTo<ExchangeModel>(eo.AsQueryable());
+      return _mapper.ProjectTo<Exchange>(eo.AsQueryable());
     }
 
-    public async Task<IEnumerable<TickerModel>> GetTickersByExchange(string exchangeMic) {
+    public async Task<IEnumerable<Ticker>> GetTickersByExchange(string exchangeMic) {
       var to = await _httpClient.RequestMarketStackAsync<TickerObject>($"{_apiUrl}/exchanges/{exchangeMic}/tickers", _options, _throttled);
-      return _mapper.ProjectTo<TickerModel>(to.AsQueryable());
+      return _mapper.ProjectTo<Ticker>(to.AsQueryable());
     }
 
-    public async Task<IEnumerable<TickerModel>> GetExchangeTickers(string exchangeMic) {
+    public async Task<IEnumerable<Ticker>> GetExchangeTickers(string exchangeMic) {
       var to = await _httpClient.RequestMarketStackAsync<TickerObject>($"{_apiUrl}/tickers?exchange={exchangeMic}", _options, _throttled);
-      return _mapper.ProjectTo<TickerModel>(to.AsQueryable());
+      return _mapper.ProjectTo<Ticker>(to.AsQueryable());
     }
 
-    public async Task<IEnumerable<DayDataModel>> GetEndOfDayData(string stockSymbol, DateTime fromDate, DateTime toDate) {
+    public async Task<IEnumerable<DayData>> GetEndOfDayData(string stockSymbol, DateTime fromDate, DateTime toDate) {
       var ddo = await _httpClient.RequestMarketStackAsync<DayDataObject>($"{_apiUrl}/eod?symbols={stockSymbol}&date_from={fromDate:yyyy-MM-dd}&date_to={toDate:yyyy-MM-dd}", _options, _throttled);
-      return _mapper.ProjectTo<DayDataModel>(ddo.AsQueryable());
+      return _mapper.ProjectTo<DayData>(ddo.AsQueryable());
     }
 
-    public async Task<IEnumerable<DayDataModel>> GetIntraDayData(string stockSymbol, DateTime fromDate, DateTime toDate) {
+    public async Task<IEnumerable<DayData>> GetIntraDayData(string stockSymbol, DateTime fromDate, DateTime toDate) {
       var ido = await _httpClient.RequestMarketStackAsync<DayDataObject>($"{_apiUrl}/intraday?symbols={stockSymbol}&date_frogm={fromDate:yyyy-MM-dd HH:mm:ss}&date_to={toDate:yyyy-MM-dd HH:mm:ss}", _options, _throttled);
-      return _mapper.ProjectTo<DayDataModel>(ido.AsQueryable());
+      return _mapper.ProjectTo<DayData>(ido.AsQueryable());
     }
 
-    public async Task<IEnumerable<TickerModel>> SearchTicker(string searchToken, string exchangeMic) {
+    public async Task<IEnumerable<Ticker>> SearchTicker(string searchToken, string exchangeMic) {
 
       var url = string.IsNullOrEmpty(exchangeMic) ?
           $"{_apiUrl}/tickers?search={searchToken}" :
           $"{_apiUrl}/tickers?search={searchToken}&exchange={exchangeMic}";
 
       var to = await _httpClient.RequestMarketStackAsync<TickerObject>(url, _options, _throttled);
-      return _mapper.ProjectTo<TickerModel>(to.AsQueryable());
+      return _mapper.ProjectTo<Ticker>(to.AsQueryable());
     }
   }
 }
