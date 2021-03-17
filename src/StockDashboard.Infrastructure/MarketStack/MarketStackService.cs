@@ -37,7 +37,7 @@ namespace StockDashboard.Infrastructure.MarketStack {
 
     public async Task<IEnumerable<Exchange>> GetExchanges() {
       var eo = await _httpClient.RequestMarketStackAsync<ExchangeObject>($"{_apiUrl}/exchanges", _options, _throttled);
-      return _mapper.ProjectTo<Exchange>(eo.AsQueryable());
+      return _mapper.ProjectTo<Exchange>(eo.Where(e => !string.IsNullOrEmpty(e.Acronym)).AsQueryable());
     }
 
     public async Task<IEnumerable<Ticker>> GetTickersByExchange(string exchangeMic) {

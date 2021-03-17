@@ -64,9 +64,7 @@ namespace StockDashboard.Infrastructure.CosmosDb.Repositories {
     }
 
     public async Task UpdateItemAsync(T item) {
-      // Audit
-      //await Audit(item);
-      // Update
+      item.Id = GenerateId(item);
       await _container.UpsertItemAsync(item, ResolvePartitionKey(item.Id));
     }
   }

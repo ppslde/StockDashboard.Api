@@ -39,15 +39,13 @@ namespace StockDashboard.WebApi {
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StockDashboard.WebApi v1"));
       }
 
-      app.UseHttpsRedirection();
-
-      app.UseRouting();
-
-      app.UseAuthorization();
-
-      app.UseEndpoints(endpoints => {
-        endpoints.MapControllers();
-      });
+      app.UseHttpsRedirection()
+        .UseRouting()
+        .UseAuthentication()
+        .UseAuthorization()
+        .UseEndpoints(endpoints => {
+          endpoints.MapControllers();
+        });
     }
   }
 }
