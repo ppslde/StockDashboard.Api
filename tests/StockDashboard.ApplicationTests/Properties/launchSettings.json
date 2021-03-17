@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "StockDashboard.ApplicationTests": {
+      "commandName": "Project",
+      "commandLineArgs": "--collect:\"XPlat Code Coverage\""
+    }
+  }
+}
