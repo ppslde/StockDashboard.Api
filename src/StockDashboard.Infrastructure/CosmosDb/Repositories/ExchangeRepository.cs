@@ -24,5 +24,14 @@ namespace StockDashboard.Infrastructure.CosmosDb.Repositories {
 
       return entities.ToArray();
     }
+
+    public async Task<Exchange> GetExchangeByMic(string mic) {
+      string query = @$"SELECT * FROM c WHERE c.Mic = @mic";
+      var queryDefinition = new QueryDefinition(query).WithParameter("@mic", mic);
+
+      var entities = await GetItemsAsync(queryDefinition);
+
+      return entities.SingleOrDefault();
+    }
   }
 }

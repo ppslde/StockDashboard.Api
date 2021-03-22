@@ -22,8 +22,10 @@ namespace StockDashboard.Infrastructure.CosmosDb {
 
       services.AddSingleton<ICosmosDbContainerFactory>(cosmosDbClientFactory);
 
-      services.AddScoped<IExchangeRepository, ExchangeRepository>();
       services.AddScoped<IUserRepository, UserRepository>();
+      services.AddScoped<IExchangeRepository, ExchangeRepository>();
+      services.AddScoped<ITickerRepository, TickerRepository>();
+      services.AddScoped<IDayDataRepository, DayDataRepository>();
 
       return services;
     }
