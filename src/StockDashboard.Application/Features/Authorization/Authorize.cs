@@ -1,24 +1,19 @@
 ﻿using MediatR;
 using StockDashboard.Application.Interfaces.Authentication;
 using StockDashboard.Application.Interfaces.Persistence;
+using StockDashboard.Application.Models;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace StockDashboard.Application.Features.Authorization {
   public class Authorize {
-    public class Command : IRequest<Model> {
+    public class Command : IRequest<UserModel> {
       public string Username { get; set; }
       public string Password { get; set; }
     }
 
-    public class Model {
-      public string User { get; set; }
-      public string Token { get; set; }
-      public string[] Roles { get; set; }
-    }
-
-    public class CommandHandler : IRequestHandler<Command, Model> {
+    public class CommandHandler : IRequestHandler<Command, UserModel> {
       private readonly IAuthenticationService _authentication;
       private readonly IUserRepository _userRepository;
 
@@ -27,7 +22,7 @@ namespace StockDashboard.Application.Features.Authorization {
         _userRepository = userRepository;
       }
 
-      public async Task<Model> Handle(Command request, CancellationToken cancellationToken) {
+      public async Task<UserModel> Handle(Command request, CancellationToken cancellationToken) {
 
         var user = await _userRepository.GetUserByNameAndPassword(request.Username, _authentication.GetPasswordHash(request.Password));
 
@@ -35,7 +30,7 @@ namespace StockDashboard.Application.Features.Authorization {
           return null;
         }
 
-        return new Model {
+        return new UserModel {
           User = user.Name,
           Token = _authentication.GetUserToken(user.Name),
           Roles = user.Roles?.ToArray()

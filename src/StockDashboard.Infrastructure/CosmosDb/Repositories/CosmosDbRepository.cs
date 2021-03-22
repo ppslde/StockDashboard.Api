@@ -34,9 +34,7 @@ namespace StockDashboard.Infrastructure.CosmosDb.Repositories {
 
     public async Task<T> GetItemAsync(string id) {
       try {
-
-        //TODO: der PartitionKey muss doch irgendwie mit in die ID, da er bei Suche und Löschen benötigt wird :(
-        ItemResponse<T> response = await _container.ReadItemAsync<T>(id, ResolvePartitionKey(id));
+        var response = await _container.ReadItemAsync<T>(id, ResolvePartitionKey(id));
         return response.Resource;
       }
       catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound) {

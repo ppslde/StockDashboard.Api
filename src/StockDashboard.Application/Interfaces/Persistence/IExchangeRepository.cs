@@ -5,5 +5,6 @@ using System.Threading.Tasks;
 namespace StockDashboard.Application.Interfaces.Persistence {
   public interface IExchangeRepository : IRepository<Exchange> {
     Task<IEnumerable<Exchange>> GetAllExchangesAsync();
+    Task<Exchange> GetExchangeByMic(string mic);
   }
 }

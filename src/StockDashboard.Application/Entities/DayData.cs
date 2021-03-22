@@ -10,10 +10,5 @@ namespace StockDashboard.Application.Entities {
     public decimal Low { get; set; }
     public decimal Close { get; set; }
     public decimal Volume { get; set; }
-    public decimal? AdjustedHigh { get; set; }
-    public decimal? AdjustedLow { get; set; }
-    public decimal? AdjustedClose { get; set; }
-    public decimal? AdjustedOpen { get; set; }
-    public decimal? AdjustedVolume { get; set; }
   }
 }

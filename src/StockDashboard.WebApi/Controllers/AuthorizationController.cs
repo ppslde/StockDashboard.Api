@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StockDashboard.Application.Features.Authorization;
-using StockDashboard.WebApi.ViewModels;
+using StockDashboard.Application.Models;
 using System.Threading.Tasks;
 
 namespace StockDashboard.WebApi.Controllers {
